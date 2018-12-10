@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <thread>
-#include <atomic>
 #include <future>
 #include <chrono>
 
@@ -25,17 +24,21 @@ int main(int argc, char* argv[]) {
     while(std::getline(inputFile, line)){
         polymer += line;
     }
-
+    // Part 1
     int startingUnits = polymer.size();
     int remainingUnits = react(polymer);
 
     std::cout << "Part 1:\n" << "\tStarting units : " << startingUnits << "\n\tRemaining units : " << remainingUnits << "\n";
-    std::vector<int> polymerSizes = {remainingUnits};
+
     // Part 2
+    std::vector<int> polymerSizes = {remainingUnits};
     std::vector<std::future<int>> threads;
-    std::cout << "Number of threads : " << std::thread::hardware_concurrency() << "\n";
+
+    unsigned maxThreads = std::thread::hardware_concurrency();
+    std::cout << "Number of threads : " << maxThreads << "\n";
+
     for(char c = 'A'; c <= 'Z'; c++){
-        while(threads.size() >= std::thread::hardware_concurrency()){
+        while(threads.size() >= maxThreads){ // Wait for a thread to finish
             for(int i = 0; i < threads.size(); i++){
                 if(threads[i].wait_for(std::chrono::milliseconds(1)) == std::future_status::ready) {
                     polymerSizes.push_back(threads[i].get());
@@ -43,7 +46,12 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
-        threads.push_back(std::async(std::launch::async, part2Thread, polymer, c));
+        threads.push_back(std::async(std::launch::async, part2Thread, polymer, c)); // Launch thread
+    }
+
+    // Fetch results from remaining threads
+    for(auto &thread : threads) {
+        polymerSizes.push_back(thread.get());
     }
     
     int minimumSize = *std::min_element(polymerSizes.begin(), polymerSizes.end());
@@ -53,9 +61,9 @@ int main(int argc, char* argv[]) {
 }
 
 int part2Thread(std::string polymer, char c) {
-        polymer.erase(std::remove(polymer.begin(), polymer.end(), c), polymer.end());
-        polymer.erase(std::remove(polymer.begin(), polymer.end(), std::tolower(c)), polymer.end());
-        return react(polymer);
+    polymer.erase(std::remove(polymer.begin(), polymer.end(), c), polymer.end());
+    polymer.erase(std::remove(polymer.begin(), polymer.end(), std::tolower(c)), polymer.end());
+    return react(polymer);
 }
 
 int react(std::string polymer){
