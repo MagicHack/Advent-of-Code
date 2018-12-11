@@ -8,7 +8,7 @@ int caclcultatePower(int x, int y, int serial){
     int powerLevel = rackId * y + serial;
     powerLevel *= rackId;
     powerLevel /= 100;
-    if(powerLevel > 10) powerLevel %= 10;
+    powerLevel %= 10;
     return powerLevel - 5;
 }
 
@@ -33,23 +33,29 @@ int main() {
     }
     int maxPower = 0;
     std::pair<int, int> coord;
-    for(int y = 0; y < GRID_SIZE - 3; y++){
-        for(int x = 0; x < GRID_SIZE - 3; x++){
-            int power = 0;
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j < 3; j++){
-                    power += cells[y + i][x + j];
+    int size = 0;
+    for(int s = 0; s <= GRID_SIZE; s++){
+        for(int y = 0; y < GRID_SIZE - s; y++){
+            for(int x = 0; x < GRID_SIZE - s; x++){
+                int power = 0;
+                for(int i = 0; i < s; i++){
+                    for(int j = 0; j < s; j++){
+                        power += cells[y + i][x + j];
+                    }
                 }
-            }
-            if(power > maxPower){
-                maxPower = power;
-                coord.first = x;
-                coord.second = y;
+                if(power > maxPower){
+                    maxPower = power;
+                    coord.first = x;
+                    coord.second = y;
+                    size = s;
+                }
             }
         }
     }
 
+
     std::cout << "Max power is " << maxPower << " at (" << coord.first << "," << coord.second << ")\n";
+    std::cout << "Grid size is " << size << "x" << size << "\n";
 
     return 0;
 }
