@@ -68,9 +68,9 @@ int part2Thread(std::string polymer, char c) {
 }
 // Second solution : much faster - threading is kinda usuless now
 int reactFaster(const std::string& polymer){
-    std::string result = "-"; // begin with a lenght of one so [end() - 1] does not segfault
+    std::string result = "-"; // begin with a lenght of one so .back() returns something
     for(auto c: polymer) {
-        if(c != *(result.end() - 1) && tolower(c) == tolower(*(result.end() - 1))){
+        if(c != result.back() && tolower(c) == tolower(result.back())){
             result.pop_back();
         } else{
             result.push_back(c);
