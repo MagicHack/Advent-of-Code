@@ -84,11 +84,15 @@ Map fillMap(std::istream& input){
 void printMap(const Map& map){
     std::cout << "\t";
     for(int i = 0; i < map.front().size(); i++){
-        std::cout << (i / 100) % 10;
+        int num = (i / 100) % 10;
+        if(num) std::cout << num;
+        else std::cout << " ";
     }
     std::cout << "\n\t";
     for(int i = 0; i < map.front().size(); i++){
-        std::cout << (i / 10) % 10;
+        int num =  (i / 10) % 10;
+        if(num != 0 || i > 9) std::cout << num;
+        else std::cout << " ";
     }
     std::cout << "\n\t";
     for(int i = 0; i < map.front().size(); i++){
@@ -185,7 +189,7 @@ bool tick(Map& map){
                                 turnCart(c);
                                 break;
                         }
-                        if(map[y][x - 1].cart != nullptr && map[y][x - 1].cart->hasMoved){
+                        if(map[y][x - 1].cart != nullptr){
                             delete map[y][x].cart;
                             map[y][x].cart = nullptr;
                             map[y][x - 1].cart->dir = crashed;
@@ -210,7 +214,7 @@ bool tick(Map& map){
                                 turnCart(c);
                                 break;
                         }
-                        if(map[y][x + 1].cart != nullptr && map[y][x + 1].cart->hasMoved){
+                        if(map[y][x + 1].cart != nullptr){
                             delete map[y][x].cart;
                             map[y][x].cart = nullptr;
                             map[y][x + 1].cart->dir = crashed;
@@ -234,7 +238,7 @@ bool tick(Map& map){
                                 turnCart(c);
                                 break;
                         }
-                        if(map[y - 1][x].cart != nullptr && map[y - 1][x].cart->hasMoved){
+                        if(map[y - 1][x].cart != nullptr){
                             delete map[y][x].cart;
                             map[y][x].cart = nullptr;
                             map[y - 1][x].cart->dir = crashed;
@@ -258,7 +262,7 @@ bool tick(Map& map){
                                 turnCart(c);
                                 break;
                         }
-                        if(map[y + 1][x].cart != nullptr && map[y + 1][x].cart->hasMoved){
+                        if(map[y + 1][x].cart != nullptr){
                             delete map[y][x].cart;
                             map[y][x].cart = nullptr;
                             map[y + 1][x].cart->dir = crashed;
