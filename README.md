@@ -1,4 +1,4 @@
-# Advent of Code 2018
-My solutions for the Advent of Code 2018
+# Advent of Code
+My solutions for the Advent of Code
 
-See https://adventofcode.com/2018 for all the info on the problems to solve.
+See https://adventofcode.com/ for all the info on the problems to solve.
