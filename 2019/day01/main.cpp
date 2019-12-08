@@ -15,12 +15,32 @@ void testFuelOneModule() {
     std::cout << (fuelOneModule(100756) == 33583) << "\n";
 }
 
-int calculateAllFuel(std::vector<int>& modulesMass) {
+int calculateAllFuel(const std::vector<int>& modulesMass) {
     int totalFuel = 0;
     for(auto mass : modulesMass) {
         totalFuel += fuelOneModule(mass);
     }
     return totalFuel;
+}
+
+int calculateAllFuelForReal(const std::vector<int>& modulesMass) {
+    int totalFuel = 0;
+    for(auto mass : modulesMass) {
+        int fuel = fuelOneModule(mass);
+        do {
+            totalFuel += fuel;
+            fuel = fuelOneModule(fuel);
+        } while (fuel > 0);
+    }
+    return totalFuel;
+}
+
+void partOne(const std::vector<int> modulesMass) {
+    std::cout << "Part 1:\n\tTotal fuel needed : " << calculateAllFuel(modulesMass);
+}
+
+void partTwo(const std::vector<int> modulesMass) {
+    std::cout << "\nPart 2:\n\tTotal fuel needed with fuel mass : " << calculateAllFuelForReal(modulesMass);
 }
 
 int main() {
@@ -38,7 +58,8 @@ int main() {
         modulesMass.push_back(mass);
     }
     // testFuelOneModule();
-    std::cout << "Total fuel needed : " << calculateAllFuel(modulesMass);
+    partOne(modulesMass);
+    partTwo(modulesMass);
     return 0;
 }
 
