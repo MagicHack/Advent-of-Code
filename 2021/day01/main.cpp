@@ -14,15 +14,20 @@ int main() {
 
     std::vector<int> data;
     int value = 0;
-    int previous = -1;
-    int cntIncreasedP1 = 0;
     while(inputFile >> value) {
         data.push_back(value);
-        if(previous != -1 && value > previous) {
+    }
+
+    // part 1
+    int previous = -1;
+    int cntIncreasedP1 = 0;
+    for(const auto current : data) {
+        if(previous != -1 && current > previous) {
             cntIncreasedP1++;
         }
-        previous = value;
+        previous = current;
     }
+
     std::cout << "Part 1: " << cntIncreasedP1 << std::endl;
 
     // part 2
