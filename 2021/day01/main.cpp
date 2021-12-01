@@ -28,7 +28,7 @@ int main() {
     // part 2
     const int windowSize = 3;
     int cntIncreaseP2 = 0;
-    for(size_t i = 3; i < data.size(); i++) {
+    for(size_t i = windowSize; i < data.size(); i++) {
         int window1 = 0;
         int window2 = 0;
         for(int j = 1; j <= windowSize; j++) {
