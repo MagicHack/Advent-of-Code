@@ -1,18 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <array>
-#include <algorithm>
+#include <string>
 
-int binStrToInt(std::string& str) {
-    int num = 0;
-    for(int i = 0; i < str.size(); i++) {
-        if(str[i] == '1') {
-            num |= 1 << (str.size() - i - 1);
-        }
-    }
-    return num;
-}
 
 std::vector<int> cntBits(std::vector<std::string>& data) {
     std::vector<int> bits_cnt(data[0].size(), 0);
@@ -41,26 +31,19 @@ int main() {
         data.push_back(val);
     }
 
-    std::vector<int> bits_cnt(data[0].size(), 0);
-    for(auto& x : data) {
-        for(int i = 0; i < bits_cnt.size(); i++) {
-            if(x[i] == '1') {
-                bits_cnt[i]++;
-            }
+    std::vector<int> bits_cnt = cntBits(data);
+
+    std::string gamaStr(bits_cnt.size(), '0');
+    for(int i = 0; i < bits_cnt.size() ; i++) {
+        if(bits_cnt[i] > data.size() / 2) {
+            gamaStr[i] = '1';
         }
     }
 
-    int gama = 0;
-    int epsilon = 0;
-    for(int i = 0; i < bits_cnt.size() ; i++) {
-        int mostCommonBit = bits_cnt[i] > data.size() / 2;
-        std::cout << i << " : " << mostCommonBit << ", cnt : " << bits_cnt[i]  << std::endl;
-        if(bits_cnt[i] > data.size() / 2) {
-            gama |= (1 << (bits_cnt.size() - i - 1));
-        } else {
-            epsilon |= (1 << (bits_cnt.size() - i - 1));
-        }
-    }
+    unsigned int gama = std::stoi(gamaStr, nullptr, 2);
+    unsigned int bitsToShift = (sizeof(gama) * 8 - bits_cnt.size());
+    // invert gama to get epsilon and remove the extra ones at the start of the number
+    unsigned int epsilon = (~gama << bitsToShift) >> bitsToShift;
 
     std::cout << "gama: " << gama << ", epsilon: " << epsilon << ", power: " << gama * epsilon << std::endl;
 
@@ -76,10 +59,6 @@ int main() {
         char wantedBit = '0';
         if(oxygenBitCnt[i] >= half) {
             wantedBit = '1';
-        }
-        //std::cout << "i : " << i << ", wantedBit : " << wantedBit << "\n";
-        for(auto& v : oxygen) {
-            // std::cout << v << "\n";
         }
 
         std::vector<std::string> goodVals;
@@ -101,10 +80,6 @@ int main() {
         if(co2BitCnt[i] < half) {
             wantedBit = '1';
         }
-        //std::cout << "i : " << i << ", wantedBit : " << wantedBit << "\n";
-        for(auto& v : co2) {
-            // std::cout << v << "\n";
-        }
 
         std::vector<std::string> goodVals;
         for (auto & j : co2) {
@@ -120,10 +95,10 @@ int main() {
     }
 
 
-    int oxygenNum = binStrToInt(oxygen.front());
-    int co2Num = binStrToInt(co2.front());
+    int oxygenNum = std::stoi(oxygen.front(), nullptr, 2);
+    int co2Num = std::stoi(co2.front(), nullptr, 2);
     int rating = oxygenNum * co2Num;
 
-    std::cout << "ox: " << oxygenNum << ", CO2: " << co2Num << ", rating: " << rating << std::endl;
+    std::cout << "Oxygen: " << oxygenNum << ", CO2: " << co2Num << ", rating: " << rating << std::endl;
     return 0;
 }
