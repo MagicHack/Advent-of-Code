@@ -51,7 +51,6 @@ int main() {
                 fishP1[j]--;
             }
         }
-        std::cout << "day  " << i << " : " << fishP1.size() << std::endl;
     }
     std::cout << "P1: " << fishP1.size() << std::endl;
 
