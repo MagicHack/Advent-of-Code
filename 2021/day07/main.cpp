@@ -25,7 +25,7 @@ int main() {
     int maxPos = *std::max_element(crabs.begin(), crabs.end());
 
     // P1
-    int minFuelConsumption = INT_MAX;
+    int minFuelConsumption = std::numeric_limits<int>::max();
     for(int i = 0; i <= maxPos; i++) {
         int fuelConsumption = 0;
         for(auto c: crabs) {
@@ -36,7 +36,7 @@ int main() {
     std::cout << "P1: " << minFuelConsumption << std::endl;
 
     // P2
-    minFuelConsumption = INT_MAX;
+    minFuelConsumption = std::numeric_limits<int>::max();
     for(int i = 0; i <= maxPos; i++) {
         int fuelConsumption = 0;
         for(auto c: crabs) {
