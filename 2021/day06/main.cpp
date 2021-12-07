@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <numeric>
+#include <algorithm>
 
 
 uint64_t numFish(int timer, int days) {
@@ -19,6 +21,20 @@ uint64_t numFish(int timer, int days) {
     // calculate and save value
     values[timer][daysArray] = numFish(6, days - timer - 1) + numFish(8, days - timer - 1);
     return values[timer][daysArray];
+}
+
+uint64_t numFishV2(const std::vector<int>& fish, int days) {
+    std::array<uint64_t , 9> fishTimers{};
+    for(const auto f : fish) {
+        fishTimers[f]++;
+    }
+
+    for(int i = 0; i < days; i++) {
+        uint64_t newFish = fishTimers[0];
+        std::rotate(fishTimers.begin(), fishTimers.begin() + 1, fishTimers.end());
+        fishTimers[6] += newFish;
+    }
+    return std::accumulate(fishTimers.begin(), fishTimers.end(), static_cast<uint64_t>(0));
 }
 
 int main() {
@@ -38,6 +54,9 @@ int main() {
         fish.push_back(std::stoi(val));
     }
 
+    // v2
+    std::cout << "P1 v2 : " << numFishV2(fish, 80) << '\n';
+    std::cout << "P2 v2 : " << numFishV2(fish, 256) << '\n';
 
     // p1
     std::vector<int> fishP1 = fish;
@@ -53,7 +72,6 @@ int main() {
         }
     }
     std::cout << "P1: " << fishP1.size() << std::endl;
-
 
     // p2
     uint64_t sum = 0;
