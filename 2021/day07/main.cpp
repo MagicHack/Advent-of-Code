@@ -29,7 +29,7 @@ int main() {
     for(int i = 0; i <= maxPos; i++) {
         int fuelConsumption = 0;
         for(auto c: crabs) {
-            fuelConsumption += std::abs(c - i);;
+            fuelConsumption += std::abs(c - i);
         }
         minFuelConsumption = std::min(fuelConsumption, minFuelConsumption);
     }
