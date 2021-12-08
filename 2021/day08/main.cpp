@@ -8,11 +8,11 @@
 #include <numeric>
 
 #define TOP 0
-#define LT 1
-#define RT 2
+#define LT  1
+#define RT  2
 #define MID 3
-#define LB 4
-#define RB 5
+#define LB  4
+#define RB  5
 #define BOT 6
 
 auto xd() {
@@ -23,7 +23,7 @@ auto xd() {
     do {
         possiblePatterns[i] = pattern;
         i++;
-    } while(std::next_permutation(pattern.begin(), pattern.end()));
+    } while (std::next_permutation(pattern.begin(), pattern.end()));
 
     return possiblePatterns;
 }
@@ -34,7 +34,7 @@ int main() {
 
     std::ifstream inputFile(inputFilePath);
 
-    if(inputFile.fail()) {
+    if (inputFile.fail()) {
         return 1;
     }
 
@@ -44,30 +44,28 @@ int main() {
     std::vector<std::string> output;
 
 
-    while(std::getline(inputFile, val, '|') && std::getline(inputFile, outputVal)) {
-        if(val.empty() || outputVal.empty()) {
+    while (std::getline(inputFile, val, '|') && std::getline(inputFile, outputVal)) {
+        if (val.empty() || outputVal.empty()) {
             continue;
         }
         signal.push_back(val);
         output.push_back(outputVal);
     }
 
-    //                                 0  1  2  3  4  5  6  7  8  9
     std::array<int, 10> numSegments = {6, 2, 5, 5, 4, 5, 6, 3, 7, 6};
     std::array<int, 10> numCount{};
 
-    for(const auto& o : output) {
+    for (const auto &o: output) {
         std::stringstream outStream(o);
         std::string digit;
-        while(outStream >> digit) {
-            if(digit.size() == numSegments[1]) {
+        while (outStream >> digit) {
+            if (digit.size() == numSegments[1]) {
                 numCount[1]++;
-            } else if(digit.size() == numSegments[4]) {
+            } else if (digit.size() == numSegments[4]) {
                 numCount[4]++;
-
-            } else if(digit.size() == numSegments[7]) {
+            } else if (digit.size() == numSegments[7]) {
                 numCount[7]++;
-            } else if(digit.size() == numSegments[8]) {
+            } else if (digit.size() == numSegments[8]) {
                 numCount[8]++;
             }
         }
@@ -80,16 +78,16 @@ int main() {
 
     int sum = 0;
     int outIndex = 0;
-    for(const auto& v : signal) {
+    for (const auto &v: signal) {
         std::stringstream sstream(v);
         std::string digit;
         std::vector<std::string> commands;
-        while(sstream >> digit) {
+        while (sstream >> digit) {
             std::sort(digit.begin(), digit.end());
             commands.push_back(digit);
         }
 
-        for(auto& p : possiblePatterns) {
+        for (auto &p: possiblePatterns) {
             std::array<std::string, 10> digitsPatterns;
             std::stringstream ss0;
             ss0 << p[TOP] << p[LT] << p[RT] << p[LB] << p[RB] << p[BOT];
@@ -104,7 +102,7 @@ int main() {
             digitsPatterns[2] = ss2.str();
 
             std::stringstream ss3;
-            ss3 << p[TOP]  << p[RT] << p[MID] << p[RB] << p[BOT];
+            ss3 << p[TOP] << p[RT] << p[MID] << p[RB] << p[BOT];
             digitsPatterns[3] = ss3.str();
 
             std::stringstream ss4;
@@ -131,27 +129,27 @@ int main() {
             ss9 << p[TOP] << p[LT] << p[RT] << p[MID] << p[RB] << p[BOT];
             digitsPatterns[9] = ss9.str();
 
-            for(auto& dp : digitsPatterns) {
+            for (auto &dp: digitsPatterns) {
                 std::sort(dp.begin(), dp.end());
             }
 
             int numMatch = 0;
-            for(auto& c : commands) {
-                for(auto& dp : digitsPatterns) {
-                    if(c == dp) {
+            for (auto &c: commands) {
+                for (auto &dp: digitsPatterns) {
+                    if (c == dp) {
                         numMatch++;
                         break;
                     }
                 }
             }
-            if(numMatch >= commands.size()) {
+            if (numMatch >= commands.size()) {
                 std::stringstream outStream(output[outIndex]);
                 std::string out;
                 int num = 0;
-                while(outStream >> out) {
+                while (outStream >> out) {
                     std::sort(out.begin(), out.end());
-                    for(int i = 0; i < digitsPatterns.size(); i++) {
-                        if(out == digitsPatterns[i]) {
+                    for (int i = 0; i < digitsPatterns.size(); i++) {
+                        if (out == digitsPatterns[i]) {
                             num = num * 10 + i;
                         }
                     }
