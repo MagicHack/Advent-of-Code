@@ -40,8 +40,6 @@ int bassinSize(const std::vector<std::vector<int>> &data, const Point &p, std::v
 }
 
 int main() {
-
-
     const std::string inputFilePath = "../input.txt";
     //const std::string inputFilePath = "../ex.txt";
 
