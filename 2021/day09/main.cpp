@@ -18,20 +18,20 @@ int bassinSize(const std::vector<std::vector<int>> &data, const Point &p, std::v
         return 0;
     }
     mp[p.y][p.x] = true;
-    int currentHeigth = data[p.y][p.x];
+    int currentHeight = data[p.y][p.x];
     int size = 1;
     for (const auto d: directions) {
         int i = p.y - d;
         int j = p.x - d;
         if (i >= 0 && i < data.size()) {
-            int heigth = data[i][p.x];
-            if (heigth < 9 && heigth > currentHeigth) {
+            int height = data[i][p.x];
+            if (height < 9 && height > currentHeight) {
                 size += bassinSize(data, {p.x, i}, mp);
             }
         }
         if (j >= 0 && j < data[p.y].size()) {
-            int heigth = data[p.y][j];
-            if (heigth < 9 && heigth > currentHeigth) {
+            int height = data[p.y][j];
+            if (height < 9 && height > currentHeight) {
                 size += bassinSize(data, {j, p.y}, mp);
             }
         }
@@ -69,12 +69,12 @@ int main() {
         for (int x = 0; x < data[y].size(); x++) {
             bool lower = true;
             for (auto d: directions) {
-                int currentHeigth = data[y][x];
+                int currentHeight = data[y][x];
 
                 // up down
                 int i = y + d;
                 if (i >= 0 && i < data.size()) {
-                    if (data[i][x] < currentHeigth) {
+                    if (data[i][x] < currentHeight) {
                         lower = false;
                     }
                 }
@@ -82,7 +82,7 @@ int main() {
                 //left right
                 int j = x + d;
                 if (j >= 0 && j < data[y].size()) {
-                    if (data[y][j] < currentHeigth) {
+                    if (data[y][j] < currentHeight) {
                         lower = false;
                     }
                 }
