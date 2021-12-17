@@ -13,12 +13,12 @@ def neighbours(point, data):
 def solve(start, end, data):
     pqueue = PriorityQueue()
     pqueue.put((0, start))
-    visited = {}
+    visited = set()
     costs = {start: 0}
 
     while not pqueue.empty():
         (dist, currentPoint) = pqueue.get()
-        visited[currentPoint] = 0
+        visited.add(currentPoint)
         for n in neighbours(currentPoint, data):
             if n not in visited:
                 current_cost = costs[currentPoint] + data[n[1]][n[0]]
